@@ -125,3 +125,16 @@ function GenerateQuadsBalls(atlas)
 
     return quads
 end
+
+--[[
+	Build a table from the last two images of the main image, which are the 
+	more balls and key powerups respectively.
+--]]
+function GenerateQuadsPowers(atlas)
+	local quads = {}
+
+	quads[1] = love.graphics.newQuad(128, 192, 16, 16, atlas:getDimensions())
+	quads[2] = love.graphics.newQuad(144, 192, 16, 16, atlas:getDimensions())
+
+	return quads
+end
