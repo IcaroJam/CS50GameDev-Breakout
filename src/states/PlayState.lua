@@ -29,6 +29,10 @@ function PlayState:enter(params)
 	self.ball = params.ball
 	self.level = params.level
 
+	-- create an empty table to keep track of the powerups
+	self.powerups = {}
+	self.powerups[1] = Powerup(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2, 1)
+
 	self.recoverPoints = 5000
 
 	-- give initial ball random starting velocity
@@ -52,6 +56,9 @@ function PlayState:update(dt)
 
 	-- update positions based on velocity
 	self.paddle:update(dt)
+	for i = 1, #self.powerups do
+		self.powerups[i]:update(dt)
+	end
 	for i = 1, #self.ball do
 		self.ball[i]:update(dt)
 
@@ -193,6 +200,23 @@ function PlayState:update(dt)
 		end
 	end
 
+	-- check if any powerups collided with the paddle
+	for i = 1, #self.powerups do
+		if self.powerups[i]:collides(self.paddle) then
+			-- add a couple of balls to the ball table
+			if self.powerups[i].type == 1 then
+				table.insert(self.ball, Ball())
+				self.ball[#self.ball].dx = math.random(-200, 200)
+				self.ball[#self.ball].dy = math.random(-60, -70)
+				table.insert(self.ball, Ball())
+				self.ball[#self.ball].dx = math.random(-200, 200)
+				self.ball[#self.ball].dy = math.random(-60, -70)
+			end
+
+			self.powerups[i] = nil
+		end
+	end
+
 	-- for rendering particle systems
 	for k, brick in pairs(self.bricks) do
 		brick:update(dt)
@@ -215,6 +239,9 @@ function PlayState:render()
 	end
 
 	self.paddle:render()
+	for i = 1, #self.powerups do
+		self.powerups[i]:render()
+	end
 	for i = 1, #self.ball do
 		self.ball[i]:render()
 	end
