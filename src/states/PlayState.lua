@@ -102,8 +102,8 @@ function PlayState:update(dt)
 					if math.random(10) == 1 then
 						table.insert(self.powerups,
 							Powerup(
-								brick.x + brick.width - 4,
-								brick.y + brick.height - 4,
+								brick.x + brick.width / 2 - 4,
+								brick.y + brick.height / 2 - 4,
 								1
 						))
 					end
