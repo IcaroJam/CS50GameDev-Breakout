@@ -237,6 +237,10 @@ function PlayState:update(dt)
 
 			self.powerups[i].inPlay = false
 		end
+
+		if self.powerups[i].inPlay and self.powerups[i].y >= VIRTUAL_HEIGHT then
+			self.powerups[i].inPlay = false
+		end
 	end
 
 	-- for rendering particle systems
