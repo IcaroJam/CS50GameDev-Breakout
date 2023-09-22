@@ -68,6 +68,18 @@ function Paddle:update(dt)
 end
 
 --[[
+	Change the paddle by an amount defined by rs if it falls inside an
+	appropriate range.
+]]
+function Paddle:resize(rs)
+	if (rs < 0 and self.size > 1) or (rs > 0 and self.size < 3) then
+		self.size = self.size + rs
+		self.width = 32 * self.size
+		print(self.width, self.height)
+	end
+end
+
+--[[
 	Render the paddle by drawing the main texture, passing in the quad
 	that corresponds to the proper skin and size.
 ]]

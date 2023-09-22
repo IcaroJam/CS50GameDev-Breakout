@@ -15,6 +15,8 @@ function Powerup:init(x, y, type)
 	-- The type of powerup, which will be used to index into it's texture and
 	-- have the corresponding behaviour once collided with the player
 	self.type = type
+
+	self.inPlay = true
 end
 
 --[[
@@ -22,6 +24,10 @@ end
 	and returns true if the bounding boxes of this and the argument overlap.
 ]]
 function Powerup:collides(target)
+	if not self.inPlay then
+		return false
+	end
+
 	-- first, check to see if the left edge of either is farther to the right
 	-- than the right edge of the other
 	if self.x > target.x + target.width or target.x > self.x + self.width then
@@ -39,9 +45,13 @@ function Powerup:collides(target)
 end
 
 function Powerup:update(dt)
-	self.y = self.y + self.dy * dt
+	if self.inPlay then
+		self.y = self.y + self.dy * dt
+	end
 end
 
 function Powerup:render()
-	love.graphics.draw(gTextures["main"], gFrames["powerups"][self.type], self.x, self.y)
+	if self.inPlay then
+		love.graphics.draw(gTextures["main"], gFrames["powerups"][self.type], self.x, self.y)
+	end
 end

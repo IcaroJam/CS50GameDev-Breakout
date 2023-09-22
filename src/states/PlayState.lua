@@ -116,6 +116,9 @@ function PlayState:update(dt)
 						-- multiply recover points by 2
 						self.recoverPoints = self.recoverPoints + math.min(100000, self.recoverPoints * 2)
 
+						-- grow the paddle
+						self.padde:resize(1)
+
 						-- play recover sound effect
 						gSounds['recover']:play()
 					end
@@ -197,6 +200,9 @@ function PlayState:update(dt)
 							highScores = self.highScores
 						})
 					else
+						-- shrink paddle
+						self.paddle:resize(-1)
+
 						gStateMachine:change('serve', {
 							paddle = self.paddle,
 							bricks = self.bricks,
@@ -229,7 +235,7 @@ function PlayState:update(dt)
 				ballsInPlay = ballsInPlay + 2
 			end
 
-			self.powerups[i] = nil
+			self.powerups[i].inPlay = false
 		end
 	end
 
@@ -259,9 +265,7 @@ function PlayState:render()
 		self.powerups[i]:render()
 	end
 	for i = 1, #self.ball do
-		if self.ball[i].inPlay then
-			self.ball[i]:render()
-		end
+		self.ball[i]:render()
 	end
 
 	renderScore(self.score)
