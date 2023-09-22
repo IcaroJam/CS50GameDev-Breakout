@@ -33,7 +33,6 @@ function PlayState:enter(params)
 
 	-- create an empty table to keep track of the powerups
 	self.powerups = {}
-	self.powerups[1] = Powerup(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2, 1)
 
 	self.recoverPoints = 5000
 
@@ -98,6 +97,16 @@ function PlayState:update(dt)
 
 					-- trigger the brick's hit function, which removes it from play
 					brick:hit()
+
+					-- spawn a random powerup randomly
+					if math.random(10) == 1 then
+						table.insert(self.powerups,
+							Powerup(
+								brick.x + brick.width - 4,
+								brick.y + brick.height - 4,
+								1
+						))
+					end
 
 					-- if we have enough points, recover a point of health
 					if self.score > self.recoverPoints then

@@ -10,7 +10,7 @@ function Powerup:init(x, y, type)
 
 	-- A random vertical speed, since the only movement a powerup should
 	-- have is downwards
-	self.dy = math.random(15, 35)
+	self.dy = math.random(80, 40)
 
 	-- The type of powerup, which will be used to index into it's texture and
 	-- have the corresponding behaviour once collided with the player
