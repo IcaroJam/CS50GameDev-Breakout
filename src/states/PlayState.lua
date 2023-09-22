@@ -34,7 +34,7 @@ function PlayState:enter(params)
 	-- create an empty table to keep track of the powerups
 	self.powerups = {}
 
-	self.recoverPoints = 5000
+	self.recoverPoints = 200
 
 	-- give initial ball random starting velocity
 	self.ball[1].dx = math.random(-200, 200)
@@ -117,7 +117,7 @@ function PlayState:update(dt)
 						self.recoverPoints = self.recoverPoints + math.min(100000, self.recoverPoints * 2)
 
 						-- grow the paddle
-						self.padde:resize(1)
+						self.paddle:resize(1)
 
 						-- play recover sound effect
 						gSounds['recover']:play()

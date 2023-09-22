@@ -75,7 +75,9 @@ function Paddle:resize(rs)
 	if (rs < 0 and self.size > 1) or (rs > 0 and self.size < 3) then
 		self.size = self.size + rs
 		self.width = 32 * self.size
-		print(self.width, self.height)
+		-- Move the paddle according to resize type to make it seem like it grew
+		-- in both directions
+		self.x = self.x - rs * 16
 	end
 end
 
