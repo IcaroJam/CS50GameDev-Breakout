@@ -72,7 +72,7 @@ end
 	appropriate range.
 ]]
 function Paddle:resize(rs)
-	if (rs < 0 and self.size > 1) or (rs > 0 and self.size < 3) then
+	if (rs < 0 and self.size > 1) or (rs > 0 and self.size < 4) then
 		self.size = self.size + rs
 		self.width = 32 * self.size
 		-- Move the paddle according to resize type to make it seem like it grew
