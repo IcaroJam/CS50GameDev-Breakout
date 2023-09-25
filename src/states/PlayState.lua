@@ -17,6 +17,7 @@
 PlayState = Class{__includes = BaseState}
 
 local ballsInPlay = 1
+local keyFlag = false
 
 --[[
 	We initialize what's in our PlayState via a state table that we pass between
@@ -92,21 +93,41 @@ function PlayState:update(dt)
 				-- only check collision if we're in play
 				if brick.inPlay and self.ball[i]:collides(brick) then
 
-					-- add to score
-					self.score = self.score + (brick.tier * 200 + brick.color * 25)
+					if not brick.isLocked then
+						-- add to score
+						self.score = self.score + (brick.tier * 200 + brick.color * 25)
 
-					-- trigger the brick's hit function, which removes it from play
-					brick:hit()
+						-- trigger the brick's hit function, which removes it from play
+						brick:hit()
 
-					-- spawn a random powerup randomly
-					if math.random(10) == 1 then
-						table.insert(self.powerups,
-							Powerup(
-								brick.x + brick.width / 2 - 4,
-								brick.y + brick.height / 2 - 4,
-								1
-						))
+						-- spawn a double ball powerup randomly
+						if math.random(10) == 1 then
+							table.insert(self.powerups,
+								Powerup(
+									brick.x + brick.width / 2 - 4,
+									brick.y + brick.height / 2 - 4,
+									1
+							))
+						end
+					else
+						if keyFlag then
+							-- add to score
+							self.score = self.score + 3000
+
+							-- trigger the brick's hit function, which removes it from play
+							brick:hit()
+
+						-- have a chance of spawning a key powerup if the hit brick is locked
+						elseif math.random(1) == 3 then
+							table.insert(self.powerups,
+								Powerup(
+									brick.x + brick.width / 2 - 4,
+									brick.y + brick.height / 2 - 4,
+									2
+							))
+						end
 					end
+
 
 					-- if we have enough points, recover a point of health
 					if self.score > self.recoverPoints then
@@ -224,8 +245,11 @@ function PlayState:update(dt)
 	-- check if any powerups collided with the paddle
 	for i = 1, #self.powerups do
 		if self.powerups[i]:collides(self.paddle) then
+			-- turn on the key flag
+			if self.powerups[i].type == 2 then
+				keyFlag = true
 			-- add a couple of balls to the ball table
-			if self.powerups[i].type == 1 then
+			elseif self.powerups[i].type == 1 then
 				table.insert(self.ball, Ball())
 				self.ball[#self.ball].dx = math.random(-200, 200)
 				self.ball[#self.ball].dy = math.random(-60, -70)
