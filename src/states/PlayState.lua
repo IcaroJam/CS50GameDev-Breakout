@@ -151,6 +151,7 @@ function PlayState:update(dt)
 					if self:checkVictory() then
 						gSounds['victory']:play()
 
+						self.paddle:reset()
 						gStateMachine:change('victory', {
 							level = self.level,
 							paddle = self.paddle,

@@ -82,6 +82,28 @@ function Paddle:resize(rs)
 end
 
 --[[
+	Resets the paddle's position and size
+]]
+function Paddle:reset()
+	-- x is placed in the middle
+	self.x = VIRTUAL_WIDTH / 2 - 32
+
+	-- y is placed a little above the bottom edge of the screen
+	self.y = VIRTUAL_HEIGHT - 32
+
+	-- start us off with no velocity
+	self.dx = 0
+
+	-- starting dimensions
+	self.width = 64
+	self.height = 16
+
+	-- the variant is which of the four paddle sizes we currently are; 2
+	-- is the starting size, as the smallest is too tough to start with
+	self.size = 2
+end
+
+--[[
 	Render the paddle by drawing the main texture, passing in the quad
 	that corresponds to the proper skin and size.
 ]]
