@@ -34,6 +34,7 @@ function PlayState:enter(params)
 
 	-- create an empty table to keep track of the powerups
 	self.powerups = {}
+	keyFlag = false
 
 	self.recoverPoints = 200
 
@@ -117,8 +118,10 @@ function PlayState:update(dt)
 							-- trigger the brick's hit function, which removes it from play
 							brick:hit()
 
+							keyFlag = false
+
 						-- have a chance of spawning a key powerup if the hit brick is locked
-						elseif math.random(1) == 3 then
+						elseif math.random(3) == 1 then
 							table.insert(self.powerups,
 								Powerup(
 									brick.x + brick.width / 2 - 4,
