@@ -50,7 +50,7 @@ paletteColors = {
 	}
 }
 
-function Brick:init(x, y)
+function Brick:init(x, y, isLocked)
 	-- used for coloring and score calculation
 	self.tier = 0
 	self.color = 1
@@ -62,6 +62,9 @@ function Brick:init(x, y)
 
 	-- used to determine whether this brick should be rendered
 	self.inPlay = true
+
+	-- used to determine whether this brick is locked
+	self.isLocked = isLocked
 
 	-- particle system belonging to the brick, emitted on hit
 	self.psystem = love.graphics.newParticleSystem(gTextures['particle'], 64)
@@ -135,11 +138,15 @@ end
 
 function Brick:render()
 	if self.inPlay then
-		love.graphics.draw(gTextures['main'],
-			-- multiply color by 4 (-1) to get our color offset, then add tier to that
-			-- to draw the correct tier and color brick onto the screen
-			gFrames['bricks'][1 + ((self.color - 1) * 4) + self.tier],
-			self.x, self.y)
+		if self.isLocked then
+			love.graphics.draw(gTextures["main"], gFrames["keybrick"], self.x, self.y)
+		else
+			love.graphics.draw(gTextures['main'],
+				-- multiply color by 4 (-1) to get our color offset, then add tier to that
+				-- to draw the correct tier and color brick onto the screen
+				gFrames['bricks'][1 + ((self.color - 1) * 4) + self.tier],
+				self.x, self.y)
+		end
 	end
 end
 

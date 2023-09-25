@@ -66,6 +66,7 @@ function love.load()
 		['paddles'] = GenerateQuadsPaddles(gTextures['main']),
 		['balls'] = GenerateQuadsBalls(gTextures['main']),
 		['bricks'] = GenerateQuadsBricks(gTextures['main']),
+		["keybrick"] = love.graphics.newQuad(160, 48, 32, 16, gTextures["main"]), -- Get the exact locked brick texture into a quad
 		['hearts'] = GenerateQuads(gTextures['hearts'], 10, 9),
 		["powerups"] = GenerateQuadsPowers(gTextures["main"])
 	}

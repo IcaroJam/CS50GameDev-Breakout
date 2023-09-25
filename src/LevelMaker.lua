@@ -92,7 +92,10 @@ function LevelMaker.createMap(level)
                 + (13 - numCols) * 16,  -- left-side padding for when there are fewer than 13 columns
 
                 -- y-coordinate
-                y * 16                  -- just use y * 16, since we need top padding anyway
+                y * 16,                 -- just use y * 16, since we need top padding anyway
+
+				-- is it locked?
+				false
             )
 
             -- if we're alternating, figure out which color/tier we're on
@@ -123,6 +126,18 @@ function LevelMaker.createMap(level)
     if #bricks == 0 then
         return self.createMap(level)
     else
+		-- once the level has been created, choose a random number of locked bricks
+		-- and place them around
+        local numOLocks = math.random(0, 3)
+		while numOLocks > 0 do
+			local bto = math.random(#bricks) -- index of the brick to transform into a locked one
+
+			if not bricks[bto].isLocked then
+				bricks[bto] = Brick(bricks[bto].x, bricks[bto].y, true)
+				numOLocks = numOLocks - 1
+			end
+        end
         return bricks
     end
+
 end
